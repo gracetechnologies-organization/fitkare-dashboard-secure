@@ -195,14 +195,13 @@ class ManageExercises extends Component
     public function renderEditModal($id)
     {
         $exercise_data = Exercise::find($id);
-        $relations_data = Exercise::select('exercise_relations.id as rel_id', 'exercises.id as ex_id', 'exercises.ex_name', 'categories.id as cat_id', 'categories.name as cat_name', 'levels.id as level_id', 'levels.name as level_name', 'programs.id as program_id', 'programs.name as program_name', 'exercise_relations.from_day', 'exercise_relations.till_day')
+        $relations_data = Exercise::select('exercise_relations.id as rel_id', 'exercises.id as ex_id', 'categories.id as cat_id', 'categories.name as cat_name', 'levels.id as level_id', 'levels.name as level_name', 'programs.id as program_id', 'programs.name as program_name', 'exercise_relations.from_day', 'exercise_relations.till_day')
             ->leftJoin('exercise_relations', 'exercise_relations.ex_id', '=', 'exercises.id')
             ->leftJoin('categories', 'categories.id', '=', 'exercise_relations.cat_id')
             ->leftJoin('levels', 'levels.id', '=', 'exercise_relations.level_id')
             ->leftJoin('programs', 'programs.id', '=', 'exercise_relations.program_id')
             ->where('exercises.id', $id)
             ->get();
-        // dd($data);
         if ($exercise_data && $relations_data) {
             $this->ex_id = $exercise_data->id;
             $this->ex_name = $exercise_data->ex_name;
@@ -269,7 +268,7 @@ class ManageExercises extends Component
 
     public function edit()
     {
-        dd("Under Development");
+        // dd("Under Development");
         $this->validate();
         try {
             /* Perform some operation */
@@ -282,7 +281,7 @@ class ManageExercises extends Component
                     'ex_thumbnail_url' => $this->ex_thumbnail_url,
                     'ex_video_url' => $this->ex_video_url,
                 ]);
-            // dd($exercise_updated->id);
+            dd($exercise_updated->id);
             foreach ($this->meta_info as $singel_index) {
                 $inserted_relations = ExerciseRelation::create([
                     'ex_id' => $this->ex_id,
@@ -319,6 +318,36 @@ class ManageExercises extends Component
             $this->dispatchBrowserEvent('close-modal', ['id' => 'editModal']);
             if ($updated) {
                 session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateName()
+    {
+        // dd($this->ex_id);
+        // $this->validate();
+        $this->validateOnly('ex_name');
+        try {
+            /* Perform some operation */
+            $updated = Exercise::where('id', '=', $this->ex_id)
+                ->update(['ex_name' => $this->ex_name]);
+            /* Operation finished */
+            // $this->resetModal();
+            sleep(1);
+            // $this->dispatchBrowserEvent('close-modal', ['id' => 'editModal']);
+            if ($updated) {
+                // Refresh the component state to show the new data
+                $this->resetAllErrors();
+                // return;
+                // $this->emit('refreshData');
+                // session()->flash('success', config('messages.UPDATION_SUCCESS'));
+                
+        
             } else {
                 session()->flash('error', config('messages.UPDATION_FAILED'));
             }

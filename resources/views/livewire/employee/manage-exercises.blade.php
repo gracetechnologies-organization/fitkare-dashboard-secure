@@ -192,16 +192,25 @@
                 <form wire:submit.prevent="edit" method="POST">
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col mb-3">
-                                <label for="ex_name" class="form-label">Exercise*</label>
+                            <label for="ex_name" class="form-label">Exercise Title*</label>
+                            <div class="input-group mb-3">
                                 <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
                                     class="form-control">
-                                <small class="text-danger">
-                                    @error('ex_name')
-                                        {{ $message }}
-                                    @enderror
-                                </small>
+                                <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                    wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                    wire:click="updateName">
+                                    <span wire:loading.remove>Update</span>
+                                    <span wire:loading>
+                                        <span class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                    </span>
+                                </button>
                             </div>
+                            <small class="text-danger">
+                                @error('ex_name')
+                                    {{ $message }}
+                                @enderror
+                            </small>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
@@ -324,7 +333,7 @@
                         </button>
                         <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                             wire:loading.class.remove="btn-primary" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Add</span>
+                            <span wire:loading.remove>Update</span>
                             <span wire:loading>
                                 <span class="spinner-border spinner-border-sm" role="status"
                                     aria-hidden="true"></span>
@@ -399,10 +408,6 @@
                         <th class="col-md-2">Description</th>
                         <th class="col-md-1">Duration</th>
                         <th class="col-md-1">Video</th>
-                        <th>Category</th>
-                        <th>Level</th>
-                        <th>Program</th>
-                        <th class="col-md-1">Days</th>
                         <th class="col-md-1">Active</th>
                         <th class="col-md-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Action</th>
                     </tr>
@@ -422,17 +427,13 @@
                                 <a href="{{ asset('storage/videos/' . $single_index->ex_video_url) }}"
                                     target="_blank"><i class='bx bx-play bx-lg'></i></a>
                             </td>
-                            <td>Category</td>
-                            <td>Level</td>
-                            <td>Program</td>
-                            <td>1-24</td>
                             <td>{{ $single_index->is_active }}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                                {{-- <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
                                     data-bs-target="#editModal"
                                     wire:click="renderEditModal({{ $single_index->id }})">
                                     <i class='bx bxs-edit-alt'></i>
-                                </button>
+                                </button> --}}
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
                                     wire:click="renderDeleteModal({{ $single_index->id }})">

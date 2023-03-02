@@ -55,12 +55,12 @@
                      </a>
                  </li>
 
-                 <li class="menu-item @if (Route::current()->uri == 'emp/order') active @endif">
+                 {{-- <li class="menu-item @if (Route::current()->uri == 'emp/order') active @endif">
                      <a href="{{ route('emp.categories') }}" class="menu-link">
                          <i class="menu-icon tf-icons bx bx-cart"></i>
                          <div data-i18n="Analytics">Orders</div>
                      </a>
-                 </li>
+                 </li> --}}
              </ul>
          </aside>
          <!-- / Menu -->
