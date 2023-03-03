@@ -69,4 +69,23 @@
     window.addEventListener('close-modal', event => {
         $('#' + event.detail.id).modal('hide');
     });
+
+    // Get all elements with class 'menu-item'
+    var menuItems = document.querySelectorAll('.menu-item');
+    // Loop through each element
+    menuItems.forEach(function(item) {
+        // Get the sub-menu element
+        var subMenu = item.querySelector('.menu-sub-items');
+        // If a sub-menu element exists
+        if (subMenu) {
+            // Hide the sub-menu by default
+            subMenu.style.display = 'none';
+            // Add a click event listener to the menu item
+            item.addEventListener('click', function() {
+                // Toggle the sub-menu visibility on click
+                subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+    });
 </script>
+

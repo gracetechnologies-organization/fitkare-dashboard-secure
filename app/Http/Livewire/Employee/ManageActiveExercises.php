@@ -12,9 +12,8 @@ use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
-class ManageExercises extends Component
+class ManageActiveExercises extends Component
 {
     use WithPagination;
     use WithFileUploads;
@@ -430,27 +429,13 @@ class ManageExercises extends Component
     public function render()
     {
         $data = Exercise::where('ex_name', 'like', '%' . $this->search . '%')
+            ->where('is_active', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         $categories = Category::orderBy('name', 'asc')->get();
         $levels = Level::orderBy('name', 'asc')->get();
         $programs = Program::orderBy('name', 'asc')->get();
-        ///*  */ 
-        // $exercise = Exercise::find(19);
 
-        // // Get all exercise relations
-        // $relations = $exercise->relations;
-
-        // // Get all categories related to the exercise
-        // $categories = $exercise->categories;
-
-        // // Get all levels related to the exercise
-        // $levels = $exercise->levels;
-
-        // // Get all programs related to the exercise
-        // $programs = $exercise->programs;
-        // dd($relations);
-        /*  */
-        return view('livewire.employee.manage-exercises', ['data' => $data, 'categories' => $categories, 'levels' => $levels, 'programs' => $programs]);
+        return view('livewire.employee.manage-active-exercises', ['data' => $data, 'categories' => $categories, 'levels' => $levels, 'programs' => $programs]);
     }
 }
