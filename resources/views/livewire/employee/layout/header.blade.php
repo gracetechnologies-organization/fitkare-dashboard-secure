@@ -6,7 +6,8 @@
              <div class="app-brand demo">
                  <a href="{{ route('emp.index') }}" class="app-brand-link">
                      <span class="app-brand-logo demo">
-                         <img src="{{ asset('storage/images/logo.jpg') }}" alt="logo" class="img-thumbnail" width="90px">
+                         <img src="{{ asset('storage/images/logo.jpg') }}" alt="logo" class="img-thumbnail"
+                             width="90px">
                      </span>
                  </a>
 
@@ -48,12 +49,54 @@
                      </a>
                  </li>
 
-                 <li class="menu-item @if (Route::current()->uri == 'emp/exercises') active @endif">
+                 {{-- <li class="menu-item @if (Route::current()->uri == 'emp/exercises') active @endif">
                      <a href="{{ route('emp.exercises') }}" class="menu-link">
                          <i class="menu-icon tf-icons bx bx-dumbbell"></i>
                          <div data-i18n="Analytics">Manage Exercises</div>
                      </a>
+                 </li> --}}
+
+                 <li class="menu-item @if (Route::current()->uri == 'emp/exercises') active @endif">
+                     <a href="#" class="menu-link">
+                         <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                         <div data-i18n="Analytics">Manage Exercises</div>
+                         <i class="bx bx-caret-down ms-auto"></i>
+                     </a>
+                     <ul class="menu-inner menu-sub-items" style="display:none;">
+                         <li class="menu-item ms-4">
+                             <a href="{{ route('emp.exercises') }}" class="menu-link">
+                                 <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                                 <div data-i18n="Analytics">Level 1</div>
+                             </a>
+                         </li>
+                         <li class="menu-item ms-4">
+                             <a href="{{ route('emp.exercises') }}" class="menu-link">
+                                 <i class="menu-icon tf-icons bx bx-dumbbell"></i>
+                                 <div data-i18n="Analytics">Level 1</div>
+                             </a>
+                         </li>
+                     </ul>
                  </li>
+
+                 <script>
+                     // Get all elements with class 'menu-item'
+                     var menuItems = document.querySelectorAll('.menu-item');
+                     // Loop through each element
+                     menuItems.forEach(function(item) {
+                         // Get the sub-menu element
+                         var subMenu = item.querySelector('.menu-sub-items');
+                         // If a sub-menu element exists
+                         if (subMenu) {
+                             // Hide the sub-menu by default
+                             subMenu.style.display = 'none';
+                             // Add a click event listener to the menu item
+                             item.addEventListener('click', function() {
+                                 // Toggle the sub-menu visibility on click
+                                 subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
+                             });
+                         }
+                     });
+                 </script>
 
                  {{-- <li class="menu-item @if (Route::current()->uri == 'emp/order') active @endif">
                      <a href="{{ route('emp.categories') }}" class="menu-link">
