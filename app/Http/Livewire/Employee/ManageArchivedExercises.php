@@ -13,7 +13,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
-class ManageActiveExercises extends Component
+
+class ManageArchivedExercises extends Component
 {
     use WithPagination;
     use WithFileUploads;
@@ -191,38 +192,38 @@ class ManageActiveExercises extends Component
         $this->resetValidation();
     }
 
-    public function renderEditModal($id)
-    {
-        $exercise_data = Exercise::find($id);
-        $relations_data = Exercise::select('exercise_relations.id as rel_id', 'exercises.id as ex_id', 'categories.id as cat_id', 'categories.name as cat_name', 'levels.id as level_id', 'levels.name as level_name', 'programs.id as program_id', 'programs.name as program_name', 'exercise_relations.from_day', 'exercise_relations.till_day')
-            ->leftJoin('exercise_relations', 'exercise_relations.ex_id', '=', 'exercises.id')
-            ->leftJoin('categories', 'categories.id', '=', 'exercise_relations.cat_id')
-            ->leftJoin('levels', 'levels.id', '=', 'exercise_relations.level_id')
-            ->leftJoin('programs', 'programs.id', '=', 'exercise_relations.program_id')
-            ->where('exercises.id', $id)
-            ->get();
-        if ($exercise_data && $relations_data) {
-            $this->ex_id = $exercise_data->id;
-            $this->ex_name = $exercise_data->ex_name;
-            $this->ex_description = $exercise_data->ex_description;
-            $this->ex_duration = $exercise_data->ex_duration;
-            $this->ex_thumbnail_url = $exercise_data->ex_thumbnail_url;
-            $this->ex_video_url = $exercise_data->ex_video_url;
-            foreach ($relations_data as $singel_index => $value) {
-                $this->meta_info[$singel_index] = [
-                    'ex_category_id' => $value['cat_id'],
-                    'ex_level_id' => $value['level_id'],
-                    'ex_program_id' => $value['program_id'],
-                    'ex_from_day' => $value['from_day'],
-                    'ex_till_day' => $value['till_day'],
-                ];
-            }
-        } else {
-            return redirect()->to(route('emp.exercises.active'))->with('error', 'Record Not Found.');
-        }
-    }
+    // public function renderEditModal($id)
+    // {
+    //     $exercise_data = Exercise::find($id);
+    //     $relations_data = Exercise::select('exercise_relations.id as rel_id', 'exercises.id as ex_id', 'categories.id as cat_id', 'categories.name as cat_name', 'levels.id as level_id', 'levels.name as level_name', 'programs.id as program_id', 'programs.name as program_name', 'exercise_relations.from_day', 'exercise_relations.till_day')
+    //         ->leftJoin('exercise_relations', 'exercise_relations.ex_id', '=', 'exercises.id')
+    //         ->leftJoin('categories', 'categories.id', '=', 'exercise_relations.cat_id')
+    //         ->leftJoin('levels', 'levels.id', '=', 'exercise_relations.level_id')
+    //         ->leftJoin('programs', 'programs.id', '=', 'exercise_relations.program_id')
+    //         ->where('exercises.id', $id)
+    //         ->get();
+    //     if ($exercise_data && $relations_data) {
+    //         $this->ex_id = $exercise_data->id;
+    //         $this->ex_name = $exercise_data->ex_name;
+    //         $this->ex_description = $exercise_data->ex_description;
+    //         $this->ex_duration = $exercise_data->ex_duration;
+    //         $this->ex_thumbnail_url = $exercise_data->ex_thumbnail_url;
+    //         $this->ex_video_url = $exercise_data->ex_video_url;
+    //         foreach ($relations_data as $singel_index => $value) {
+    //             $this->meta_info[$singel_index] = [
+    //                 'ex_category_id' => $value['cat_id'],
+    //                 'ex_level_id' => $value['level_id'],
+    //                 'ex_program_id' => $value['program_id'],
+    //                 'ex_from_day' => $value['from_day'],
+    //                 'ex_till_day' => $value['till_day'],
+    //             ];
+    //         }
+    //     } else {
+    //         return redirect()->to(route('emp.exercises.active'))->with('error', 'Record Not Found.');
+    //     }
+    // }
 
-    public function renderarchiveModal($id)
+    public function renderExID($id)
     {
         $this->ex_id = $id;
     }
@@ -270,6 +271,7 @@ class ManageActiveExercises extends Component
         $this->validate();
         try {
             /* Perform some operation */
+            // $updated = Exercise::find($this->ex_id);
             $exercise_updated = Exercise::where('id', '=', $this->ex_id)
                 ->update([
                     'ex_name' => $this->ex_name,
@@ -343,8 +345,8 @@ class ManageActiveExercises extends Component
                 // return;
                 // $this->emit('refreshData');
                 // session()->flash('success', config('messages.UPDATION_SUCCESS'));
-                
-        
+
+
             } else {
                 session()->flash('error', config('messages.UPDATION_FAILED'));
             }
@@ -354,22 +356,41 @@ class ManageActiveExercises extends Component
         }
     }
 
-    public function archive()
+    public function destroy()
     {
         try {
             /* Perform some operation */
-            $soft_deleted = Exercise::where('id', '=', $this->ex_id)
+            $deleted = Exercise::find($this->ex_id)->delete();
+            /* Operation finished */
+            sleep(1);
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'deleteModal']);
+            if ($deleted) {
+                session()->flash('success', config('messages.DELETION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.DELETION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function unArchive()
+    {
+        try {
+            /* Perform some operation */
+            $un_archived = Exercise::where('id', '=', $this->ex_id)
                 ->update([
-                    'is_active' => 0,
-                    'deleted_at' => Carbon::now()
+                    'is_active' => 1,
+                    'deleted_at' => null
                 ]);
             /* Operation finished */
             sleep(1);
-            $this->dispatchBrowserEvent('close-modal', ['id' => 'archiveModal']);
-            if ($soft_deleted) {
-                session()->flash('success', config('messages.ARCHIVED_SUCCESS'));
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'unArchiveModal']);
+            if ($un_archived) {
+                session()->flash('success', config('messages.UN_ARCHIVED_SUCCESS'));
             } else {
-                session()->flash('error', config('messages.ARCHIVED_FAILED'));
+                session()->flash('error', config('messages.UN_ARCHIVED_FAILED'));
             }
         } catch (Exception $error) {
             report($error);
@@ -426,13 +447,12 @@ class ManageActiveExercises extends Component
     public function render()
     {
         $data = Exercise::where('ex_name', 'like', '%' . $this->search . '%')
-            ->where('is_active', 1)
-            ->orderBy('created_at', 'desc')
+            ->where('is_active', 0)
+            ->orderBy('deleted_at', 'desc')
             ->paginate(10);
         $categories = Category::orderBy('name', 'asc')->get();
         $levels = Level::orderBy('name', 'asc')->get();
         $programs = Program::orderBy('name', 'asc')->get();
-
-        return view('livewire.employee.manage-active-exercises', ['data' => $data, 'categories' => $categories, 'levels' => $levels, 'programs' => $programs]);
+        return view('livewire.employee.manage-archived-exercises', ['data' => $data, 'categories' => $categories, 'levels' => $levels, 'programs' => $programs]);
     }
 }

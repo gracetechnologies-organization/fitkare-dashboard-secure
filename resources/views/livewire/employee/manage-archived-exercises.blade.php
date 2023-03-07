@@ -180,7 +180,7 @@
         </div>
     </div>
     {{-- ************************************ Edit Exercise Model ************************************ --}}
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+    {{-- <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -343,30 +343,64 @@
                 </form>
             </div>
         </div>
-    </div>
-    {{-- ************************************ Archive Exercise Model ************************************ --}}
-    <div wire:ignore.self class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="archiveModalLabel"
+    </div> --}}
+    {{-- ************************************ UnArchive Exercise Model ************************************ --}}
+    <div wire:ignore.self class="modal fade" id="unArchiveModal" tabindex="-1" aria-labelledby="unArchiveModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="archiveModalLabel">Archive Exercise</h3>
+                    <h3 class="modal-title" id="unArchiveModalLabel">Unarchive Exercise</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="resetModal"></button>
                 </div>
-                <form wire:submit.prevent="archive">
+                <form wire:submit.prevent="unArchive">
                     <div class="modal-body">
-                        <p class="fs-4 text-muted">
-                            Are you sure you want to achive this data? 
+                        <p class="fs-4 text-success">
+                            Are you sure you want to restore this data?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+                        <button type="submit" class="btn btn-success" wire:loading.class="btn-dark"
+                            wire:loading.class.remove="btn-success" wire:loading.attr="disabled">
+                            <span wire:loading.remove>Unarchive</span>
+                            <span wire:loading>
+                                <span class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- ************************************ Delete Exercise Model ************************************ --}}
+    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="deleteModalLabel">Delete Exercise</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        wire:click="resetModal"></button>
+                </div>
+                <form wire:submit.prevent="destroy">
+                    <div class="modal-body">
+                        <p class="fs-4 text-danger">
+                            Are you sure you want to delete this data? <br>
+                            You can't undo this action!!
                         </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">
                             No
                         </button>
-                        <button type="submit" class="btn btn-secondary" wire:loading.class="btn-dark"
-                            wire:loading.class.remove="btn-secondary" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Archive</span>
+                        <button type="submit" class="btn btn-danger" wire:loading.class="btn-dark"
+                            wire:loading.class.remove="btn-danger" wire:loading.attr="disabled">
+                            <span wire:loading.remove>Delete</span>
                             <span wire:loading>
                                 <span class="spinner-border spinner-border-sm" role="status"
                                     aria-hidden="true"></span>
@@ -379,21 +413,20 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-6">
-            <h1 class="fw-bold py-3 my-1">{{ config('app.name') }} Active Exercises</h1>
+            <h1 class="fw-bold py-3 my-1">{{ config('app.name') }} Archived Exercises</h1>
         </div>
-        <div class="col-12 col-sm-6 col-md-5">
+        <div class="col-12 col-sm-6 col-md-6">
             <div class="input-group my-3">
                 <input type="text" wire:model.debounce.500ms="search" class="form-control py-3"
                     placeholder="Search here...">
-                {{-- <button class="btn btn-primary" type="button"><i class='bx bx-search-alt'></i></button> --}}
             </div>
         </div>
-        <div class="col-12 col-md-1">
+        {{-- <div class="col-12 col-md-1">
             <button type="button" class="btn btn-primary my-3 py-3 w-100" data-bs-toggle="modal"
                 data-bs-target="#addModal" wire:click="resetModal">
                 <i class='bx bx-plus-medical'></i>
             </button>
-        </div>
+        </div> --}}
     </div>
     <!-- Basic Bootstrap Table -->
     <div class="card">
@@ -423,20 +456,18 @@
                             <td>{{ $single_index->ex_duration }}</td>
                             <td>
                                 <a href="{{ asset('storage/videos/' . $single_index->ex_video_url) }}"
-                                    target="_blank">
-                                    <i class='bx bx-play bx-lg text-dark'></i>
-                                </a>
+                                    target="_blank"><i class='bx bx-play bx-lg text-dark'></i></a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                    data-bs-target="#editModal"
-                                    wire:click="renderEditModal({{ $single_index->id }})">
-                                    <i class='bx bxs-edit-alt'></i>
+                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#unArchiveModal"
+                                    wire:click="renderExID({{ $single_index->id }})">
+                                    <i class='bx bxs-archive-out'></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#archiveModal"
-                                    wire:click="renderarchiveModal({{ $single_index->id }})">
-                                    <i class='bx bxs-archive-in'></i>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    wire:click="renderExID({{ $single_index->id }})">
+                                    <i class='bx bxs-trash'></i>
                                 </button>
                             </td>
                         </tr>
