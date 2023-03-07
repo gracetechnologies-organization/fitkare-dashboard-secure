@@ -1,6 +1,6 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h1 class="fw-bold py-3 mb-4">Dashboard</h1>
+        <h1 class="py-3 mb-4">Dashboard</h1>
         <!-- Basic Bootstrap Table -->
         <div class="row">
             <div id="cms-block-b" class="cms-block cms-block-element col-md-3">

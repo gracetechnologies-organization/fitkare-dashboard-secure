@@ -1,8 +1,8 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">My Profile</h4>
+    <h1 class="py-3 mb-4">Profile</h1>
     <div class="row">
         <div class="card mb-4">
-            <h5 class="card-header">I'm a livewire component Profile Details</h5>
+            <h5 class="card-header">Profile Details</h5>
             <!-- Account -->
             <div class="card-body">
                 <form id="formAccountSettings" action="{{ route('emp.update') }}" method="POST">
@@ -11,23 +11,21 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Name</label>
-                            <input class="form-control" type="text" id="name" name="name"
-                                value="" placeholder="First Name" />
+                            <p>{{ $data->name }}</p>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
-                            <input class="form-control" type="email" value=""
-                                placeholder="john.doe@example.com" readonly />
+                            <p>{{ $data->email }}</p>
                         </div>
                     </div>
-                    <div class="mt-2">
+                    {{-- <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
             <!-- /Account -->
         </div>
-        <div class="card">
+        {{-- <div class="card">
             <h5 class="card-header">Change Password</h5>
             <div class="card-body">
                 <form id="formAccountSettings" action="{{ route('emp.update_password') }}" method="POST">
@@ -60,7 +58,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 </div>

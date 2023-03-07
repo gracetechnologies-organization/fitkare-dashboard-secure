@@ -180,7 +180,7 @@
         </div>
     </div>
     {{-- ************************************ Edit Exercise Model ************************************ --}}
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+    {{-- <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -192,16 +192,25 @@
                 <form wire:submit.prevent="edit" method="POST">
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col mb-3">
-                                <label for="ex_name" class="form-label">Exercise*</label>
+                            <label for="ex_name" class="form-label">Exercise Title*</label>
+                            <div class="input-group mb-3">
                                 <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
                                     class="form-control">
-                                <small class="text-danger">
-                                    @error('ex_name')
-                                        {{ $message }}
-                                    @enderror
-                                </small>
+                                <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                    wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                    wire:click="updateName">
+                                    <span wire:loading.remove>Update</span>
+                                    <span wire:loading>
+                                        <span class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                    </span>
+                                </button>
                             </div>
+                            <small class="text-danger">
+                                @error('ex_name')
+                                    {{ $message }}
+                                @enderror
+                            </small>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
@@ -324,7 +333,40 @@
                         </button>
                         <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                             wire:loading.class.remove="btn-primary" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Add</span>
+                            <span wire:loading.remove>Update</span>
+                            <span wire:loading>
+                                <span class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> --}}
+    {{-- ************************************ UnArchive Exercise Model ************************************ --}}
+    <div wire:ignore.self class="modal fade" id="unArchiveModal" tabindex="-1" aria-labelledby="unArchiveModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="unArchiveModalLabel">Unarchive Exercise</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        wire:click="resetModal"></button>
+                </div>
+                <form wire:submit.prevent="unArchive">
+                    <div class="modal-body">
+                        <p class="fs-4 text-success">
+                            Are you sure you want to restore this data?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+                        <button type="submit" class="btn btn-success" wire:loading.class="btn-dark"
+                            wire:loading.class.remove="btn-success" wire:loading.attr="disabled">
+                            <span wire:loading.remove>Restore</span>
                             <span wire:loading>
                                 <span class="spinner-border spinner-border-sm" role="status"
                                     aria-hidden="true"></span>
@@ -371,21 +413,20 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-6">
-            <h1 class="fw-bold py-3 my-1">{{ config('app.name') }} Exercises</h1>
+            <h1 class="py-3 my-1">{{ config('app.name') }} Archived Exercises</h1>
         </div>
-        <div class="col-12 col-sm-6 col-md-5">
+        <div class="col-12 col-sm-6 col-md-6">
             <div class="input-group my-3">
                 <input type="text" wire:model.debounce.500ms="search" class="form-control py-3"
                     placeholder="Search here...">
-                {{-- <button class="btn btn-primary" type="button"><i class='bx bx-search-alt'></i></button> --}}
             </div>
         </div>
-        <div class="col-12 col-md-1">
+        {{-- <div class="col-12 col-md-1">
             <button type="button" class="btn btn-primary my-3 py-3 w-100" data-bs-toggle="modal"
                 data-bs-target="#addModal" wire:click="resetModal">
                 <i class='bx bx-plus-medical'></i>
             </button>
-        </div>
+        </div> --}}
     </div>
     <!-- Basic Bootstrap Table -->
     <div class="card">
@@ -394,17 +435,12 @@
                 <thead>
                     <tr>
                         <th class="col-md-1">ID</th>
-                        <th class="col-md-2">Thumbnail</th>
+                        <th class="col-md-3">Thumbnail</th>
                         <th class="col-md-2">Exercise</th>
                         <th class="col-md-2">Description</th>
                         <th class="col-md-1">Duration</th>
                         <th class="col-md-1">Video</th>
-                        <th>Category</th>
-                        <th>Level</th>
-                        <th>Program</th>
-                        <th class="col-md-1">Days</th>
-                        <th class="col-md-1">Active</th>
-                        <th class="col-md-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Action</th>
+                        <th class="col-md-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Action</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -420,22 +456,17 @@
                             <td>{{ $single_index->ex_duration }}</td>
                             <td>
                                 <a href="{{ asset('storage/videos/' . $single_index->ex_video_url) }}"
-                                    target="_blank"><i class='bx bx-play bx-lg'></i></a>
+                                    target="_blank"><i class='bx bx-play bx-lg text-dark'></i></a>
                             </td>
-                            <td>Category</td>
-                            <td>Level</td>
-                            <td>Program</td>
-                            <td>1-24</td>
-                            <td>{{ $single_index->is_active }}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                    data-bs-target="#editModal"
-                                    wire:click="renderEditModal({{ $single_index->id }})">
-                                    <i class='bx bxs-edit-alt'></i>
+                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#unArchiveModal"
+                                    wire:click="renderExID({{ $single_index->id }})">
+                                    <i class='bx bxs-archive-out'></i>
                                 </button>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    wire:click="renderDeleteModal({{ $single_index->id }})">
+                                    wire:click="renderExID({{ $single_index->id }})">
                                     <i class='bx bxs-trash'></i>
                                 </button>
                             </td>
