@@ -266,7 +266,6 @@ class ManageActiveExercises extends Component
 
     public function edit()
     {
-        // dd("Under Development");
         $this->validate();
         try {
             /* Perform some operation */
@@ -326,23 +325,15 @@ class ManageActiveExercises extends Component
 
     public function updateName()
     {
-        // dd($this->ex_id);
-        // $this->validate();
         $this->validateOnly('ex_name');
         try {
             /* Perform some operation */
             $updated = Exercise::where('id', '=', $this->ex_id)
                 ->update(['ex_name' => $this->ex_name]);
             /* Operation finished */
-            // $this->resetModal();
             sleep(1);
-            // $this->dispatchBrowserEvent('close-modal', ['id' => 'editModal']);
             if ($updated) {
-                // Refresh the component state to show the new data
-                $this->resetAllErrors();
-                // return;
-                // $this->emit('refreshData');
-                // session()->flash('success', config('messages.UPDATION_SUCCESS'));
+                // $this->resetAllErrors();
             } else {
                 session()->flash('error', config('messages.UPDATION_FAILED'));
             }

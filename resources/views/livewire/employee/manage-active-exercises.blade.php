@@ -39,7 +39,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="ex_name" class="form-label">Exercise*</label>
+                                <label for="ex_name" class="form-label">Exercise Title*</label>
                                 <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
                                     class="form-control">
                                 <small class="text-danger">
@@ -189,7 +189,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="resetModal"></button>
                 </div>
-                <form wire:submit.prevent="edit" method="POST">
+                <form wire:submit.prevent>
                     <div class="modal-body">
                         <div class="row">
                             <label for="ex_name" class="form-label">Exercise Title*</label>
@@ -330,14 +330,6 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                             wire:click="resetModal">
                             Close
-                        </button>
-                        <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
-                            wire:loading.class.remove="btn-primary" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Update</span>
-                            <span wire:loading>
-                                <span class="spinner-border spinner-border-sm" role="status"
-                                    aria-hidden="true"></span>
-                            </span>
                         </button>
                     </div>
                 </form>
