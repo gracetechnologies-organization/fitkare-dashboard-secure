@@ -199,7 +199,7 @@
                                 <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                                     wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
                                     wire:click="updateName">
-                                    <span wire:loading.remove>Update</span>
+                                    <span wire:loading.remove>Update Title</span>
                                     <span wire:loading>
                                         <span class="spinner-border spinner-border-sm" role="status"
                                             aria-hidden="true"></span>
@@ -217,6 +217,15 @@
                                 <label for="ex_description" class="form-label">Description*</label>
                                 <textarea placeholder="Enter description here..." rows="3" wire:model.lazy="ex_description"
                                     class="form-control"></textarea>
+                                <button type="submit" class="btn btn-primary mt-1 col-12" wire:loading.class="btn-dark"
+                                    wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                    wire:click="updateName">
+                                    <span wire:loading.remove>Update Description</span>
+                                    <span wire:loading>
+                                        <span class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                    </span>
+                                </button>
                                 <small class="text-danger">
                                     @error('ex_description')
                                         {{ $message }}
@@ -349,7 +358,7 @@
                 <form wire:submit.prevent="archive">
                     <div class="modal-body">
                         <p class="fs-4 text-muted">
-                            Are you sure you want to achive this data? 
+                            Are you sure you want to achive this data?
                         </p>
                     </div>
                     <div class="modal-footer">
