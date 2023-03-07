@@ -56,16 +56,16 @@
                          <i class="bx bx-caret-down ms-auto"></i>
                      </a>
                      <ul class="menu-inner menu-sub-items" style="display:none;">
-                         <li class="menu-item ms-4">
+                         <li class="menu-item ms-4  @if (Route::current()->uri == 'emp/exercises/active') active @endif">
                              <a href="{{ route('emp.exercises.active') }}"
-                                 class="menu-link @if (Route::current()->uri == 'emp/exercises/active') active @endif">
+                                 class="menu-link">
                                  <i class="menu-icon bx bx-sun"></i>
                                  <div data-i18n="Analytics">Active</div>
                              </a>
                          </li>
-                         <li class="menu-item ms-4">
+                         <li class="menu-item ms-4 @if (Route::current()->uri == 'emp/exercises/archived') active @endif">
                              <a href="{{ route('emp.exercises.archived') }}"
-                                 class="menu-link @if (Route::current()->uri == 'emp/exercises/archived') active @endif">
+                                 class="menu-link">
                                  <i class="menu-icon bx bx-archive-in"></i>
                                  <div data-i18n="Analytics">Archived</div>
                              </a>
@@ -95,15 +95,17 @@
                  </div>
 
                  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-
+                    {{-- <div class="text-center">
+                        <h1>Welcome to my website</h1>
+                      </div> --}}
+                      
+                    <h1 class="fw-bold mt-3 col-11 text-center" >GRACE <span class="text-black-custom">TECHNOLOGIES</span></h1>
                      <ul class="navbar-nav flex-row align-items-center ms-auto">
-
                          <!-- User -->
                          <li class="nav-item navbar-dropdown dropdown-user dropdown">
                              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                  data-bs-toggle="dropdown">
-                                 <div class="avatar avatar-online" style="">
+                                 <div class="avatar avatar-online">
                                      <i class="bx bx-lg bx-user text-success"
                                          style="background: aliceblue; border-radius: 50%;"></i>
                                  </div>
@@ -117,7 +119,7 @@
                                              </div>
                                              <div class="flex-grow-1">
                                                  <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                                 <small class="text-muted">{{ Auth::user()->role_id }}</small>
+                                                 <small class="text-muted">Employee</small>
                                              </div>
                                          </div>
                                      </a>

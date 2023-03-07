@@ -343,8 +343,6 @@ class ManageActiveExercises extends Component
                 // return;
                 // $this->emit('refreshData');
                 // session()->flash('success', config('messages.UPDATION_SUCCESS'));
-                
-        
             } else {
                 session()->flash('error', config('messages.UPDATION_FAILED'));
             }

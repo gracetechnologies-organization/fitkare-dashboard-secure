@@ -366,7 +366,7 @@
                         </button>
                         <button type="submit" class="btn btn-success" wire:loading.class="btn-dark"
                             wire:loading.class.remove="btn-success" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Unarchive</span>
+                            <span wire:loading.remove>Restore</span>
                             <span wire:loading>
                                 <span class="spinner-border spinner-border-sm" role="status"
                                     aria-hidden="true"></span>
@@ -413,7 +413,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-6">
-            <h1 class="fw-bold py-3 my-1">{{ config('app.name') }} Archived Exercises</h1>
+            <h1 class="py-3 my-1">{{ config('app.name') }} Archived Exercises</h1>
         </div>
         <div class="col-12 col-sm-6 col-md-6">
             <div class="input-group my-3">

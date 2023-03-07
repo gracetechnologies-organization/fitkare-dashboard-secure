@@ -146,7 +146,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-6" >
-            <h1 class="fw-bold py-3 my-1">{{ config('app.name') }} Levels</h1>
+            <h1 class="py-3 my-1">{{ config('app.name') }} Levels</h1>
         </div>
         <div class="col-12 col-sm-6 col-md-5" >
             <div class="input-group my-3">
