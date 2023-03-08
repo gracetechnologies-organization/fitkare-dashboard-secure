@@ -42,12 +42,7 @@ class ManageActiveExercises extends Component
         'ex_description' => 'required|string',
         'ex_duration' => 'required|integer|numeric',
         'ex_thumbnail' => 'required|image|max:100',
-        'ex_video' => 'required|mimetypes:video/mp4|max:1024',
-        // 'ex_category_id' => 'required|integer|numeric',
-        // 'ex_level_id' => 'integer|numeric',
-        // 'ex_program_id' => 'integer|numeric',
-        // 'ex_from_day' => 'integer|numeric',
-        // 'ex_till_day' => 'integer|numeric',
+        'ex_video' => 'required|mimetypes:video/mp4|max:800',
         'meta_info.*.ex_category_id' => 'required|integer|numeric',
         'meta_info.*.ex_level_id' => 'integer|numeric',
         'meta_info.*.ex_program_id' => 'integer|numeric',
@@ -92,7 +87,7 @@ class ManageActiveExercises extends Component
         */
         'ex_video.required' => 'Mere bhai video must hai 😒',
         'ex_video.mimetypes' => 'Bhai sahab video sirf .mp4 honi chahiye 😒',
-        'ex_video.max' => 'Mai srif 1MB tk ki video upload krne dnga 🥳',
+        'ex_video.max' => 'Mai srif 800KB tk ki video upload krne dnga 🥳',
         /*
         |--------------------------------------------------------------------------
         | ex_category_id error messages
@@ -291,17 +286,6 @@ class ManageActiveExercises extends Component
                     'till_day' => (!empty($singel_index['ex_till_day'])) ? $singel_index['ex_till_day'] : NULL,
                 ]);
             }
-            // 'ex_name' => $this->ex_name,
-            // 'ex_description' => $this->ex_description,
-            // 'ex_duration' => $this->ex_description,
-            // 'ex_thumbnail_url' => $this->ex_description,
-            // 'ex_video_url' => $this->ex_description,
-            // $this->ex_category_id = '';
-            // $this->ex_level_id = '';
-            // $this->ex_program_id = '';
-            // $this->ex_from_day = '';
-            // $this->ex_till_day = '';
-
             /* Operation finished */
 
             // Check if the update was successful
