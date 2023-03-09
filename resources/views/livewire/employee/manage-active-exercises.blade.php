@@ -39,7 +39,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="ex_name" class="form-label">Exercise*</label>
+                                <label for="ex_name" class="form-label">Exercise Title*</label>
                                 <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
                                     class="form-control">
                                 <small class="text-danger">
@@ -148,8 +148,7 @@
                                             <option value="{{ $from_day }}">{{ $from_day }}</option>
                                         @endfor
                                     </select>
-                                    <button type="button" wire:click="addMetaInfoRow({{ $single_index }})"
-                                        class="btn btn-secondary">
+                                    <button type="button" wire:click="addMetaInfoRow" class="btn btn-secondary">
                                         <i class='bx bxs-plus-circle display-5'></i>
                                     </button>
                                 </div>
@@ -189,34 +188,45 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="resetModal"></button>
                 </div>
-                <form wire:submit.prevent="edit" method="POST">
+                <form wire:submit.prevent>
                     <div class="modal-body">
                         <div class="row">
-                            <label for="ex_name" class="form-label">Exercise Title*</label>
-                            <div class="input-group mb-3">
-                                <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
-                                    class="form-control">
-                                <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
-                                    wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
-                                    wire:click="updateName">
-                                    <span wire:loading.remove>Update</span>
-                                    <span wire:loading>
-                                        <span class="spinner-border spinner-border-sm" role="status"
-                                            aria-hidden="true"></span>
-                                    </span>
-                                </button>
+                            <div class="col mb-0">
+                                <label for="ex_name" class="form-label">Exercise Title*</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
+                                        class="form-control">
+                                    <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                        wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                        wire:click="updateName">
+                                        <span wire:loading.remove>Update Title</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <small class="text-danger">
+                                    @error('ex_name')
+                                        {{ $message }}
+                                    @enderror
+                                </small>
                             </div>
-                            <small class="text-danger">
-                                @error('ex_name')
-                                    {{ $message }}
-                                @enderror
-                            </small>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="ex_description" class="form-label">Description*</label>
                                 <textarea placeholder="Enter description here..." rows="3" wire:model.lazy="ex_description"
                                     class="form-control"></textarea>
+                                <button type="submit" class="btn btn-primary mt-1 col-12"
+                                    wire:loading.class="btn-dark" wire:loading.class.remove="btn-primary"
+                                    wire:loading.attr="disabled" wire:click="updateDescription">
+                                    <span wire:loading.remove>Update Description</span>
+                                    <span wire:loading>
+                                        <span class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                    </span>
+                                </button>
                                 <small class="text-danger">
                                     @error('ex_description')
                                         {{ $message }}
@@ -227,8 +237,19 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="ex_duration" class="form-label">Duration*</label>
-                                <input type="number" placeholder="Enter duration" wire:model.lazy="ex_duration"
-                                    class="form-control">
+                                <div class="input-group mb-3">
+                                    <input type="number" placeholder="Enter duration" wire:model.lazy="ex_duration"
+                                        class="form-control">
+                                    <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                        wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                        wire:click="updateDuration">
+                                        <span wire:loading.remove>Update Duration</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </span>
+                                    </button>
+                                </div>
                                 <small class="text-danger">
                                     @error('ex_duration')
                                         {{ $message }}
@@ -239,9 +260,23 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="ex_thumbnail" class="form-label">Thumbnail*</label>
-                                <input type="file"
-                                    accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif, image/svg, image/webp"
-                                    wire:model.lazy="ex_thumbnail" class="form-control">
+                                <div>
+                                    <img src="{{ asset('storage/images/' . $ex_thumbnail_url) }}" width="120px">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="file"
+                                        accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif, image/svg, image/webp"
+                                        wire:model.lazy="ex_thumbnail" class="form-control">
+                                    <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                        wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                        wire:click="updateImage">
+                                        <span wire:loading.remove>Update Image</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </span>
+                                    </button>
+                                </div>
                                 <small class="text-danger">
                                     @error('ex_thumbnail')
                                         {{ $message }}
@@ -252,8 +287,22 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="ex_video" class="form-label">Video*</label>
-                                <input type="file" accept="video/*" wire:model.lazy="ex_video"
-                                    class="form-control">
+                                <a href="{{ asset('storage/videos/' . $ex_video_url) }}" target="_blank">
+                                    <i class='bx bx-play bx-lg text-dark'></i>
+                                </a>
+                                <div class="input-group mb-3">
+                                    <input type="file" accept="video/*" wire:model.lazy="ex_video"
+                                        class="form-control">
+                                    <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                        wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                        wire:click="updateVideo">
+                                        <span wire:loading.remove>Update Video</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </span>
+                                    </button>
+                                </div>
                                 <small class="text-danger">
                                     @error('ex_video')
                                         {{ $message }}
@@ -313,9 +362,17 @@
                                             <option value="{{ $from_day }}">{{ $from_day }}</option>
                                         @endfor
                                     </select>
-                                    <button type="button" wire:click="addMetaInfoRow({{ $single_index }})"
-                                        class="btn btn-secondary">
+                                    <button type="button" wire:click="addMetaInfoRow" class="btn btn-secondary">
                                         <i class='bx bxs-plus-circle display-5'></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
+                                        wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
+                                        wire:click="updateSingleMetaInfo({{ $single_index }})">
+                                        <span wire:loading.remove>Update Meta</span>
+                                        <span wire:loading>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                        </span>
                                     </button>
                                 </div>
                             @endforeach
@@ -330,14 +387,6 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                             wire:click="resetModal">
                             Close
-                        </button>
-                        <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
-                            wire:loading.class.remove="btn-primary" wire:loading.attr="disabled">
-                            <span wire:loading.remove>Update</span>
-                            <span wire:loading>
-                                <span class="spinner-border spinner-border-sm" role="status"
-                                    aria-hidden="true"></span>
-                            </span>
                         </button>
                     </div>
                 </form>
@@ -357,7 +406,7 @@
                 <form wire:submit.prevent="archive">
                     <div class="modal-body">
                         <p class="fs-4 text-muted">
-                            Are you sure you want to achive this data? 
+                            Are you sure you want to achive this data?
                         </p>
                     </div>
                     <div class="modal-footer">

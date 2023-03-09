@@ -42,12 +42,7 @@ class ManageActiveExercises extends Component
         'ex_description' => 'required|string',
         'ex_duration' => 'required|integer|numeric',
         'ex_thumbnail' => 'required|image|max:100',
-        'ex_video' => 'required|mimetypes:video/mp4|max:1024',
-        // 'ex_category_id' => 'required|integer|numeric',
-        // 'ex_level_id' => 'integer|numeric',
-        // 'ex_program_id' => 'integer|numeric',
-        // 'ex_from_day' => 'integer|numeric',
-        // 'ex_till_day' => 'integer|numeric',
+        'ex_video' => 'required|mimetypes:video/mp4|max:800',
         'meta_info.*.ex_category_id' => 'required|integer|numeric',
         'meta_info.*.ex_level_id' => 'integer|numeric',
         'meta_info.*.ex_program_id' => 'integer|numeric',
@@ -92,7 +87,7 @@ class ManageActiveExercises extends Component
         */
         'ex_video.required' => 'Mere bhai video must hai 😒',
         'ex_video.mimetypes' => 'Bhai sahab video sirf .mp4 honi chahiye 😒',
-        'ex_video.max' => 'Mai srif 1MB tk ki video upload krne dnga 🥳',
+        'ex_video.max' => 'Mai srif 800KB tk ki video upload krne dnga 🥳',
         /*
         |--------------------------------------------------------------------------
         | ex_category_id error messages
@@ -137,6 +132,7 @@ class ManageActiveExercises extends Component
         */
         $this->meta_info = [
             [
+                'rel_id' => '',
                 'ex_category_id' => '',
                 'ex_level_id' => '',
                 'ex_program_id' => '',
@@ -176,6 +172,7 @@ class ManageActiveExercises extends Component
         */
         $this->meta_info = [
             [
+                'rel_id' => '',
                 'ex_category_id' => '',
                 'ex_level_id' => '',
                 'ex_program_id' => '',
@@ -210,6 +207,7 @@ class ManageActiveExercises extends Component
             $this->ex_video_url = $exercise_data->ex_video_url;
             foreach ($relations_data as $singel_index => $value) {
                 $this->meta_info[$singel_index] = [
+                    'rel_id' => $value['rel_id'],
                     'ex_category_id' => $value['cat_id'],
                     'ex_level_id' => $value['level_id'],
                     'ex_program_id' => $value['program_id'],
@@ -266,7 +264,6 @@ class ManageActiveExercises extends Component
 
     public function edit()
     {
-        // dd("Under Development");
         $this->validate();
         try {
             /* Perform some operation */
@@ -289,17 +286,6 @@ class ManageActiveExercises extends Component
                     'till_day' => (!empty($singel_index['ex_till_day'])) ? $singel_index['ex_till_day'] : NULL,
                 ]);
             }
-            // 'ex_name' => $this->ex_name,
-            // 'ex_description' => $this->ex_description,
-            // 'ex_duration' => $this->ex_description,
-            // 'ex_thumbnail_url' => $this->ex_description,
-            // 'ex_video_url' => $this->ex_description,
-            // $this->ex_category_id = '';
-            // $this->ex_level_id = '';
-            // $this->ex_program_id = '';
-            // $this->ex_from_day = '';
-            // $this->ex_till_day = '';
-
             /* Operation finished */
 
             // Check if the update was successful
@@ -326,23 +312,122 @@ class ManageActiveExercises extends Component
 
     public function updateName()
     {
-        // dd($this->ex_id);
-        // $this->validate();
         $this->validateOnly('ex_name');
         try {
             /* Perform some operation */
             $updated = Exercise::where('id', '=', $this->ex_id)
                 ->update(['ex_name' => $this->ex_name]);
             /* Operation finished */
-            // $this->resetModal();
             sleep(1);
-            // $this->dispatchBrowserEvent('close-modal', ['id' => 'editModal']);
             if ($updated) {
-                // Refresh the component state to show the new data
-                $this->resetAllErrors();
-                // return;
-                // $this->emit('refreshData');
-                // session()->flash('success', config('messages.UPDATION_SUCCESS'));
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateDescription()
+    {
+        $this->validateOnly('ex_description');
+        try {
+            /* Perform some operation */
+            $updated = Exercise::where('id', '=', $this->ex_id)
+                ->update(['ex_description' => $this->ex_description]);
+            /* Operation finished */
+            sleep(1);
+            if ($updated) {
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateDuration()
+    {
+        $this->validateOnly('ex_duration');
+        try {
+            /* Perform some operation */
+            $updated = Exercise::where('id', '=', $this->ex_id)
+                ->update(['ex_duration' => $this->ex_duration]);
+            /* Operation finished */
+            sleep(1);
+            if ($updated) {
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateImage()
+    {
+        $this->validateOnly('ex_thumbnail');
+        try {
+            /* Perform some operation */
+            $updated = Exercise::where('id', '=', $this->ex_id)
+                ->update(['ex_thumbnail_url' => $this->getImgURL()]);
+            /* Operation finished */
+            sleep(1);
+            if ($updated) {
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateVideo()
+    {
+        $this->validateOnly('ex_video');
+        try {
+            /* Perform some operation */
+            $updated = Exercise::where('id', '=', $this->ex_id)
+                ->update(['ex_video_url' => $this->getVideoURL()]);
+            /* Operation finished */
+            sleep(1);
+            if ($updated) {
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
+            } else {
+                session()->flash('error', config('messages.UPDATION_FAILED'));
+            }
+        } catch (Exception $error) {
+            report($error);
+            session()->flash('error', config('messages.INVALID_DATA'));
+        }
+    }
+
+    public function updateSingleMetaInfo($index)
+    {
+        $this->validateOnly('meta_info');
+        try {
+            /* Perform some operation */
+            $updated = ExerciseRelation::where('id', '=', $this->meta_info[$index]['rel_id'])
+                ->update([
+                    'ex_id' => $this->ex_id,
+                    'cat_id' => $this->meta_info[$index]['ex_category_id'],
+                    'level_id' => (!empty($this->meta_info[$index]['ex_level_id'])) ? $this->meta_info[$index]['ex_level_id'] : NULL,
+                    'program_id' => (!empty($this->meta_info[$index]['ex_program_id'])) ? $this->meta_info[$index]['ex_program_id'] : NULL,
+                    'from_day' => (!empty($this->meta_info[$index]['ex_from_day'])) ? $this->meta_info[$index]['ex_from_day'] : NULL,
+                    'till_day' => (!empty($this->meta_info[$index]['ex_till_day'])) ? $this->meta_info[$index]['ex_till_day'] : NULL,
+                ]);
+            /* Operation finished */
+            sleep(1);
+            if ($updated) {
+                session()->flash('success', config('messages.UPDATION_SUCCESS'));
             } else {
                 session()->flash('error', config('messages.UPDATION_FAILED'));
             }
@@ -408,6 +493,7 @@ class ManageActiveExercises extends Component
         |--------------------------------------------------------------------------
         */
         $this->meta_info[] = [
+            'rel_id' => '',
             'ex_category_id' => '',
             'ex_level_id' => '',
             'ex_program_id' => '',
