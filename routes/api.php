@@ -22,4 +22,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('exercises')->group(function(){
      /** Butt Reduce Routes **/
      Route::get('/butt_reduce/{cat_id}', [ExercisesController::class, 'listAllDataButtReduce']);
+    /** Route For All Categories **/
+     Route::get('/category/{cat_id}', [ExercisesController::class, 'listAllDataButtReduce']);
+});
+
+// fallback for 404 URL's
+Route::fallback(function () {
+    return response()->json(
+        [
+            'data' => [],
+            'success' => 0,
+            'message' => 'Invalid Route, No API found against this URL. In case if you have declared a new route but still it\'s NOT FOUND then please reset the route cache of your application.'
+        ],
+        404
+    );
 });
