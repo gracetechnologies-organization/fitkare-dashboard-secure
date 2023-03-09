@@ -194,7 +194,7 @@
                             <div class="col mb-0">
                                 <label for="ex_name" class="form-label">Exercise Title*</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" placeholder="Enter exercise name" wire:model.lazy="ex_name"
+                                    <input type="text" placeholder="Enter exercise name" wire:model.defer="ex_name"
                                         class="form-control">
                                     <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                                         wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
@@ -216,7 +216,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="ex_description" class="form-label">Description*</label>
-                                <textarea placeholder="Enter description here..." rows="3" wire:model.lazy="ex_description"
+                                <textarea placeholder="Enter description here..." rows="3" wire:model.defer="ex_description"
                                     class="form-control"></textarea>
                                 <button type="submit" class="btn btn-primary mt-1 col-12"
                                     wire:loading.class="btn-dark" wire:loading.class.remove="btn-primary"
@@ -238,7 +238,7 @@
                             <div class="col mb-3">
                                 <label for="ex_duration" class="form-label">Duration*</label>
                                 <div class="input-group mb-3">
-                                    <input type="number" placeholder="Enter duration" wire:model.lazy="ex_duration"
+                                    <input type="number" placeholder="Enter duration" wire:model.defer="ex_duration"
                                         class="form-control">
                                     <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                                         wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
@@ -266,7 +266,7 @@
                                 <div class="input-group mb-3">
                                     <input type="file"
                                         accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif, image/svg, image/webp"
-                                        wire:model.lazy="ex_thumbnail" class="form-control">
+                                        wire:model.defer="ex_thumbnail" class="form-control">
                                     <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                                         wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
                                         wire:click="updateImage">
@@ -291,7 +291,7 @@
                                     <i class='bx bx-play bx-lg text-dark'></i>
                                 </a>
                                 <div class="input-group mb-3">
-                                    <input type="file" accept="video/*" wire:model.lazy="ex_video"
+                                    <input type="file" accept="video/*" wire:model.defer="ex_video"
                                         class="form-control">
                                     <button type="submit" class="btn btn-primary" wire:loading.class="btn-dark"
                                         wire:loading.class.remove="btn-primary" wire:loading.attr="disabled"
@@ -315,7 +315,7 @@
                             @foreach ($meta_info as $single_index => $value)
                                 <?php print_r($single_index); ?>
                                 <div class="input-group mb-3">
-                                    <select wire:model.lazy="meta_info.{{ $single_index }}.ex_category_id"
+                                    <select wire:model.defer="meta_info.{{ $single_index }}.ex_category_id"
                                         class="form-select col-sm-12">
                                         <option selected value="">Category*</option>
                                         @forelse ($categories as $single_category)
@@ -326,7 +326,7 @@
                                             <option value="" disabled>No Data</option>
                                         @endforelse
                                     </select>
-                                    <select wire:model.lazy="meta_info.{{ $single_index }}.ex_level_id"
+                                    <select wire:model.defer="meta_info.{{ $single_index }}.ex_level_id"
                                         class="form-select">
                                         <option selected value="">Level</option>
                                         @forelse($levels as $single_level)
@@ -337,7 +337,7 @@
                                             <option value="" disabled>No Data</option>
                                         @endforelse
                                     </select>
-                                    <select wire:model.lazy="meta_info.{{ $single_index }}.ex_program_id"
+                                    <select wire:model.defer="meta_info.{{ $single_index }}.ex_program_id"
                                         class="form-select">
                                         <option selected value="">Program</option>
                                         @forelse($programs as $single_program)
@@ -348,14 +348,14 @@
                                             <option value="" disabled>No Data</option>
                                         @endforelse
                                     </select>
-                                    <select wire:model.lazy="meta_info.{{ $single_index }}.ex_from_day"
+                                    <select wire:model.defer="meta_info.{{ $single_index }}.ex_from_day"
                                         class="form-select">
                                         <option selected value="">From day</option>
                                         @for ($from_day = 1; $from_day <= 24; $from_day++)
                                             <option value="{{ $from_day }}">{{ $from_day }}</option>
                                         @endfor
                                     </select>
-                                    <select wire:model.lazy="meta_info.{{ $single_index }}.ex_till_day"
+                                    <select wire:model.defer="meta_info.{{ $single_index }}.ex_till_day"
                                         class="form-select">
                                         <option selected value="">Till day</option>
                                         @for ($from_day = 1; $from_day <= 24; $from_day++)
