@@ -99,7 +99,7 @@
                         <div class="row">
                             <label for="ex_category_id" class="form-label">Meta Info</label>
                             @foreach ($meta_info as $single_index => $value)
-                                <?php print_r($single_index); ?>
+                                
                                 <div class="input-group mb-3">
                                     <select wire:model.lazy="meta_info.{{ $single_index }}.ex_category_id"
                                         class="form-select col-sm-12">
@@ -313,7 +313,6 @@
                         <div class="row">
                             <label for="ex_category_id" class="form-label">Meta Info</label>
                             @foreach ($meta_info as $single_index => $value)
-                                <?php print_r($single_index); ?>
                                 <div class="input-group mb-3">
                                     <select wire:model.defer="meta_info.{{ $single_index }}.ex_category_id"
                                         class="form-select col-sm-12">
