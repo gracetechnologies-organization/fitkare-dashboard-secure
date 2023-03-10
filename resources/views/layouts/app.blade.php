@@ -43,12 +43,20 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
+        @if (Auth::user()->role_id === "emp")
         @include('livewire.employee.layout.header')
+        @elseif (Auth::user()->role_id === "admin")
+        {{"Admin"}}
+        @endif
         <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
+        @if (Auth::user()->role_id === "emp")
         @include('livewire.employee.layout.footer')
+        @elseif (Auth::user()->role_id === "admin")
+        {{"Admin footer"}}
+        @endif
     </div>
     @stack('footer')
     @stack('wire_script')

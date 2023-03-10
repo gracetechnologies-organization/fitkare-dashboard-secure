@@ -28,6 +28,13 @@
                      </a>
                  </li>
 
+                 <li class="menu-item @if (Route::current()->uri == 'emp/employees') active @endif">
+                     <a href="{{ route('admin.employees') }}" class="menu-link">
+                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                         <div data-i18n="Analytics">Employees</div>
+                     </a>
+                 </li>
+
                  <li class="menu-item @if (Route::current()->uri == 'emp/categories') active @endif">
                      <a href="{{ route('emp.categories') }}" class="menu-link">
                          <i class="menu-icon tf-icons bx bx-category-alt"></i>
@@ -57,15 +64,13 @@
                      </a>
                      <ul class="menu-inner menu-sub-items" style="display:none;">
                          <li class="menu-item ms-4  @if (Route::current()->uri == 'emp/exercises/active') active @endif">
-                             <a href="{{ route('emp.exercises.active') }}"
-                                 class="menu-link">
+                             <a href="{{ route('emp.exercises.active') }}" class="menu-link">
                                  <i class="menu-icon bx bx-sun"></i>
                                  <div data-i18n="Analytics">Active</div>
                              </a>
                          </li>
                          <li class="menu-item ms-4 @if (Route::current()->uri == 'emp/exercises/archived') active @endif">
-                             <a href="{{ route('emp.exercises.archived') }}"
-                                 class="menu-link">
+                             <a href="{{ route('emp.exercises.archived') }}" class="menu-link">
                                  <i class="menu-icon bx bx-archive-in"></i>
                                  <div data-i18n="Analytics">Archived</div>
                              </a>
@@ -94,7 +99,8 @@
                  </div>
 
                  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                    <h1 class="fw-bold mt-3 col-11 text-center" >GRACE <span class="text-black-custom">TECHNOLOGIES</span></h1>
+                     <h1 class="fw-bold mt-3 col-11 text-center">GRACE <span
+                             class="text-black-custom">TECHNOLOGIES</span></h1>
                      <ul class="navbar-nav flex-row align-items-center ms-auto">
                          <!-- User -->
                          <li class="nav-item navbar-dropdown dropdown-user dropdown">

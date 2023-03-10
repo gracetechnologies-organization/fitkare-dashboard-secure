@@ -2,7 +2,7 @@
 
 Route::middleware('admin_guard')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
+    // Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
     Route::get('/order', [AdminController::class, 'orders'])->name('admin.orders');
     Route::resource('/menu-items', ProductController::class);
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
