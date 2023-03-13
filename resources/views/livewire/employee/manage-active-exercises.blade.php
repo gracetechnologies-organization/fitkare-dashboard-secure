@@ -404,7 +404,7 @@
                 <form wire:submit.prevent="archive">
                     <div class="modal-body">
                         <p class="fs-4 text-muted">
-                            Are you sure you want to achive this data?
+                            Are you sure you want to archive this data?
                         </p>
                     </div>
                     <div class="modal-footer">

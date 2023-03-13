@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('exercises')->group(function(){
      /** Butt Reduce Routes **/
      Route::get('/butt_reduce/{cat_id}', [ExercisesController::class, 'listAllDataButtReduce']);
+    /** Neck Workout Routes **/
+    Route::get('/neck_workouts', [ExercisesController::class, 'listAllDataNeckWorkout']);
     /** Route For All Categories **/
      Route::get('/category/{cat_id}', [ExercisesController::class, 'listAllDataButtReduce']);
 });
