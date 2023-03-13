@@ -1,0 +1,23 @@
+To add SCSS in Laravel, you can follow these steps:
+
+Install the Laravel Mix package:
+npm install laravel-mix --save-dev
+
+Install the necessary dependencies for compiling SCSS:
+npm install sass sass-loader resolve-url-loader --save-dev
+
+
+Create a new SCSS file in your resources/sass directory. For example, you could create a file called app.scss.
+In your webpack.mix.js file, add the following code to compile the SCSS file:
+mix.sass('resources/sass/app.scss', 'public/css');
+
+
+This will compile your app.scss file and output the resulting CSS file to the public/css directory.
+Run the following command to compile your assets:
+npm run dev
+
+
+This will compile your SCSS file and any other assets defined in your webpack.mix.js file.
+
+That's it! Your SCSS file should now be compiled and accessible in your Laravel application. You can include the compiled CSS file in your application by linking to it in your HTML, like so:
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
